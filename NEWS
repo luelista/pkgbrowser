@@ -1,0 +1,218 @@
+2016-01-06: version 0.20.1
+  fixed the logfile parser so that downgrades are included
+
+2016-03-22: version 0.20
+  improved the performance of the files search (3x faster for non-regexp searches)
+  changed the files search so that it is always case-sensitive by default
+  added support for nested groups in the search syntax
+  added the facility to search for empty fields (enables listing orphaned packages)
+  changed to using the Arch Linux Archive for the cache page
+  updated the aur apis to use rpc v5
+
+2015-10-02: version 0.19.1
+  minor compatibility fixes for python-3.5
+
+2015-08-10: version 0.19
+  added columns for votes and popularity in the package-pane
+  made the package-pane columns configurable
+  added support for aur 4
+  ported to pyqt5
+  improved performance of send-to-list command
+
+2015-03-29: version 0.18.1
+  fixed files cache update so that last-modified comparison is handled correctly
+  
+2014-05-28: version 0.18
+  added support for AUR 3.0
+  fixed some compiler warnings
+
+2013-12-13: version 0.17.1
+  fixed fetching of aur package info so that max url length is not exceeded (issue 4)
+   
+2013-09-14: version 0.17
+  fixed the formatting of exported package information
+  fixed some potential filepath encoding issues
+  added an information page for backup files
+  reworked the url opener so that the BROWSER environment variable is given priority
+  re-arranged the filters so that more package states are represented (issue 23)
+  changed the default codec for translation so that it handles non-ascii text
+  fixed the makefile so that python3 is explicitly set as the default
+
+2013-09-03: version 0.16
+  moved to a new source-code hosting site
+  ported to python3
+  added an aur category for fonts
+
+2013-08-27: version 0.15
+  fixed package update checking so that downgrades are ignored for vcs packages
+  fixed the package cache lister so that it works with the new arm service
+  fixed offline mode so that it includes the package cache arm service
+  fixed the sig-level handling in the alpm bindings
+  reorganized the source tree and build process
+  changed the top-level package name
+  
+2013-04-26: version 0.14.1
+  fixed the matcher for package cache files
+  fixed the logfile parser so that it works with the latest format
+
+2013-04-22: version 0.14
+  fixed package urls so that only official arch repositories are supported
+  fixed the keyboard navigation in the information pane
+  added support for history navigation with the extra mouse-buttons
+  improved the formatting of the dependency tree
+  added a handler for system palette changes
+  unified the colour scheme for the information pages (based on the system palette)
+  changed the package list so that installed size is always shown (where appropriate)
+  added a command for sending linked items in the information pages to the package list
+  added incremental text-search to the information pages
+  added a validation field to the details page
+  added an optional-for field to the details page
+  added a new status for optional-for packages
+  removed the (unsupported) plugins mechanism
+
+2013-04-07: version 0.13
+  updated the config parser for pacman-4.1
+  ported the alpm bindings to libalpm-8.x
+  refactored an obsolete function call
+
+2012-12-07: version 0.12
+  added an install-script field to the details page (issue 14)
+  added a field to the details page for official package urls
+  improved the method for identifying the system browser when opening links (issue 12)
+  fixed a potential case-sensitivty bug in pkg_get_packager
+  fixed the about dialog so that links are handled correctly
+  added a keyboard handler for deleting individual bookmarks
+  reimplemented the search methods
+  removed the search option for filtering the current package list
+
+2012-11-13: version 0.11.1
+  fixed the alpm bindings so that string conversions are handled correctly
+
+2012-11-04: version 0.11
+  updated handling of aur rpc errors to be compatible with aur-2.0
+  updated the format of the out-of-date field to be compatible with aur-2.0
+  updated the aur-parser to be compatible with aur-2.0
+  fixed the wildcard method for aur searches
+  fixed the backend exception classes so that all arguments are correctly encoded
+  fixed the alpm bindings so that listing package files does not crash on 64 bit systems
+
+2012-10-31: version 0.10.2
+  fixed the search-box so that the max-count is handled correctly
+  fixed and/or improved unicode support throughout the codebase
+  fixed the retrieval of urls from arm so that plus-signs are handled correctly
+  fixed the percent/character encoding of urls
+  fixed maintainer search so that installed aur packages are included
+  fixed a regression that caused aur packages with updates to be omitted
+  reimplemented the downloader class so that it uses threads/urllib rather than asyncore (issue 8)
+  ported the alpm bindings to cython
+  changed backend load to use downloader class for fetching rpc data
+  changed package retrieval so that a null package is returned for currently unavailable items
+  fixed package filtering so that cross-repo updates do not produce duplicates
+  changed ui disabling during setup so that the active task can be cancelled
+  fixed the callback handler so that the search icon is reset if an exception occurs
+  backed out some earlier changes to backend initialization
+  fixed ui disabling so that the bookmarks menu is unavailble during setup
+  improved the exception handling so that the application can be aborted more safely
+  fixed the package class so that the "requires" list also includes aur items when appropriate
+  fixed the disabling of search keys when the state of the maintainer option is changed
+
+2012-07-07: version 0.10.1
+  fixed the makefile so that computed variables are used for the pyuic and pyrcc commands
+  
+2012-05-04: version 0.10
+  added an information tab for listing package cache entries
+  changed the display of information pages so that all tabs are enabled for every package
+  fixed the about dialog so that links are accessible
+
+2012-04-29: version 0.9.1
+  fixed the category listing so that it works with the new pacnet api (issue 7)
+  fixed the aur urls so that https logins are made easier
+
+2012-03-10: version 0.9
+  added the facility to bookmark packages
+  added a package log information page
+  added an 'optional' key to the search options (for reverse optdepends)
+  improved the menu layout
+  fixed the package files lists so that they are always correctly sorted
+  fixed the statistics dialog so that it is a child of the main window
+  fixed the application startup so that the main window is shown immediately
+  changed the pkgbuild dependencies so that python-2.7 is required
+
+2012-01-17: version 0.8
+  ported the alpm bindings to libalpm-7.x (issue 6)
+  
+2011-10-08: version 0.7
+  changed loading of categories so that it is done on demand rather than during setup (issue 5)
+  changed the backend.load method so that it uses blocking i/o (issue 5)
+  added a context menu command to export package information (issue 4)
+  added a menu item for cancelling the current task (issue 5)
+  added a mechanism for loading plugins (issue 3)
+  added an option to use system colours for the information pages
+  changed history buttons so that they use built-in arrows instead of icons
+  changed the list-views so that all columns show focus
+  changed the search button icon
+  refactored the alpm module
+
+2011-08-30: version 0.6
+  added a configuration option to include the aur in searches by default
+  added support for some of the new features in aur-1.9
+  fixed the handling of aur urls
+  fixed 'categories' filter so that it is disabled when working offline
+  
+2011-08-05: version 0.5
+  added some statistics fields to the dependency tree page
+  added 'non-installed' indicators to the dependency tree
+  added build dependencies to the dependency tree for aur packages
+  added 'build requires' field to details page for aur packages
+  fixed the dependency tree so that 'provides' are handled correctly
+  added support for 'required by' for aur packages
+  fixed details page so that it shows 'required by' for non-installed packages
+  fixed search so that it handles versioned 'provides' correctly
+  added a 'non-installed' status for the package details page
+  removed the facility to retrieve package changelogs
+  added a fallback mechanism for loading categories
+
+2011-08-02: version 0.4.1
+  fixed the loading of categories so that network errors are handled correctly
+
+2011-06-24: version 0.4
+  added a 'split packages' field to the aur details
+  improved the reading of aur pkgbuild information
+  fixed aur version details so that the release number is included
+  fixed some issues with setting the icon of the search button
+  added the facility to abort the application after an unhandled exception occurs
+  improved the formatting of the package dependency tree
+  fixed a rounding error when calculating the statistics
+  re-ordered the fields of the details page so the dates are grouped together
+  removed the redundant 'install reason' field from the details page
+  
+2011-06-19: version 0.3.1
+  fixed a minor error when loading backend (see issue 1)
+  
+2011-05-20: version 0.3
+  fixed error handling when accessing aur package info
+  fixed 'copy list' so that it works with both groups and packages
+  added a search option for filtering the current package list
+  moved the 'groups' filter into the repository filter group
+  fixed the package list so that it does not scroll to top when expanding groups
+  added a 'maintainer' key to the search options
+  removed 'submitter' and 'contributors' from the details page
+  fixed the details page so that unmaintained aur packages are correctly identified
+  fixed the tree generator so that it can handle packages with no dependencies
+
+2011-05-04: version 0.2
+  added a size column to the packages list
+  added a dialog to display high-level statistics about installed packages
+  added an 'installed size' field to the details page for non-installed packages
+  added a 'status' field to the details page
+  removed 'foreign' as a status category and made it a filter group
+  fixed plain-search so that both normal and aur searches have the same behaviour
+  fixed the formatting of some error messages (e.g. regular expression syntax errors)
+  fixed the error handling for online searches so that failed connections do not hang
+
+2011-04-21: version 0.1.1
+  amended the filter names
+  fixed the 'non-installed' filter so that it includes updates
+
+2011-04-20: version 0.1
+  original release

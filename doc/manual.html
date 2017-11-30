@@ -1,0 +1,367 @@
+<html>
+
+<head>
+
+<title>PkgBrowser Manual</title>
+
+<style type="text/css">
+
+hr {margin-top: 10;}
+td.header {padding: 10;}
+td.content {padding: 10; padding-bottom: 25;}
+table.shortcuts td {padding-right: 25; padding-bottom: 8;}
+font.aur {color: mediumorchid;}
+font.official {color: tomato;}
+
+</style>
+
+</head>
+
+<body>
+
+<table width="100%">
+
+<tr><td class="header">
+
+<h2>PkgBrowser</h2>
+
+<p>A utility for browsing pacman databases and the AUR</p>
+
+<p>&copy; 2010-2017, kachelaqa &lt;kachelaqa@gmail.com&gt;</p>
+
+<hr>
+
+</td></tr>
+
+<tr><td class="content">
+
+<h3>Command Line Usage</h3>
+
+<blockquote>
+
+<pre>
+usage: pkgbrowser [opts]
+
+options:
+ -h  display this help and exit
+ -V  display version information
+ -u  create/update files cache
+</pre>
+
+</blockquote>
+
+<h3>Configuration Files</h3>
+
+<blockquote>
+
+<p>The possible locations for configuration files are:</p>
+
+<ul>
+<li><b>User-specific</b><p>$HOME/.config/pkgbrowser/pkgbrowser.conf</p></li>
+<li><b>System-wide</b><p>/etc/pkgbrowser/pkgbrowser.conf</p></li>
+</ul>
+
+<p>All configuration files are pure ASCII and use an INI-style format.</p>
+
+</blockquote>
+
+<h3>Cache Options</h3>
+
+<ul>
+
+<li><p><b>Extended File Searches</b></p>
+
+<p>By default, when looking for which package owns a file, only the file-lists of installed packages are available for searching.</p>
+
+<p>To extend the searches to non-installed packages, the necessary file-lists can be downloaded and cached on the local system.</p>
+
+<p>The cache can be created/updated with the following command:</p>
+
+<blockquote>pkgbrowser -u</blockquote>
+
+</li>
+
+<li><p><b>Cache Directory</b></p>
+
+<p>The default location for the cache directory is:</p>
+
+<blockquote>/var/cache/pkgbrowser</blockquote>
+
+<p>This location can be changed by adding an option to one of the configuration files as follows:</p>
+
+<blockquote>
+[options]<br>
+cache-directory=/some/other/location
+</blockquote>
+
+</li>
+
+</ul>
+
+<h3>Search Options</h3>
+
+<ul>
+
+<li><p><b>Include AUR</b></p>
+
+<p>By default, this option is unchecked when pkgbrowser starts. This can be changed by adding a line to one of the configuration files as follows:</p>
+
+<blockquote>
+[options]<br>
+include-aur=true
+</blockquote>
+
+</li>
+
+</ul>
+
+<h3>Search Syntax</h3>
+
+<ul>
+
+<p>Search patterns consist of one or more terms connected together by operators. The terms and operators can be in any order, and spacing is mostly optional. All searches ignore case, except for file searches, which are case-sensitive.</p>
+
+<li><p><b>Boolean Operators</b></p>
+
+<p>The logical OR operator is specified by a pipe character "<code>|</code>", and the logical NOT operator is specified by a tilde character "<code>~</code>". If the OR operator is not present, the AND operator is implied by default.</p>
+
+<p>The pattern below uses all three boolean operators:</p>
+
+<blockquote><code>red blue | green ~ yellow</code></blockquote>
+
+<p>It is logically equivalent to:</p>
+
+<blockquote><code>(red AND blue) OR (green AND NOT yellow)</code></blockquote>
+
+</li>
+
+<li><p><b>Grouping Operators</b></p>
+
+<p>The boolean operators are normally evaluated from left to right, but the order can be changed by grouping the terms with parentheses.</p>
+
+<p>The pattern below groups the middle two terms into an OR statement:</p>
+
+<blockquote><code>red (blue | green) ~ yellow</code></blockquote>
+
+<p>It is logically equivalent to:</p>
+
+<blockquote><code>red AND (blue OR green) AND NOT yellow</code></blockquote>
+
+</li>
+
+<li><p><b>Exact Operator</b></p>
+
+<p>By default, searches look for keys that <i>contain</i> the given terms. Keys can be matched <i>exactly</i> by using the Exact operator, which is specified by an equals character "<code>=</code>".</p>
+
+<p>The pattern below uses both default and exact matching:</p>
+
+<blockquote><code>red | = green</code></blockquote>
+
+<p>This will match "redden" or "green", but not "greener" or "greenish".</p>
+
+</li>
+
+<li><p><b>Literal Operators</b></p>
+
+<p>Single or double quotes can be used to cancel the normal meaning of spaces and the other operator characters:</p>
+
+<blockquote><code>"red blue" | 'green yellow'</code></blockquote>
+
+<p>They can also be used with the Exact operator to search for empty fields. So the following pattern matches either "yellow", or nothing</p>
+
+<blockquote><code>yellow | = ""</code></blockquote>
+
+</li>
+
+<li><p><b>RegExp Operator</b></p>
+
+<p>The percent character "<code>%</code>" can be used to indicate that the following term is to be treated as a <a href="http://docs.python.org/3/library/re.html#regular-expression-syntax">regular&nbsp;expression</a>. Optionally, the term can be quoted in order to avoid conflicts with the other operators.</p>
+
+<p>The following pattern shows the use of the RegExp operator:</p>
+
+<blockquote><code> % ^yellow | ~ % blue$</code></blockquote>
+
+<p>This will match any key that either begins with "yellow", or does not end with "blue".</p>
+
+</li>
+
+<li><p><b>Matching Files</b></p>
+
+<p>When searching for files, only whole path components will be matched (unless the RegExp operator is used). In addition, the Exact operator will only match full, absolute paths.</p>
+
+<p>The following pattern shows three different ways of getting the same match:</p>
+
+<blockquote><code>red | bin/red | = /bin/red</code></blockquote>
+
+</li>
+
+<li><p><b>Matching Orphans</b></p>
+
+<p>A list of orphaned packages can be produced by selecting the Maintainer key and using an empty field search (see the <b>Literal Operators</b> section, above).</p>
+
+</li>
+
+<li><p><b>AUR Limitations</b></p>
+
+<p>When making AUR searches, terms using the NOT or RegExp operators <i>must</i> be ANDed with at least one other term that does not itself use one of those operators.</p>
+
+<p>For example, the pattern below produces an error because it includes an unqualified NOT term:</p>
+
+<blockquote><code>green | blue | ~ red</code></blockquote>
+
+<p>The final term must be ANDed with at least one other positive term in order for the pattern to be valid:</p>
+
+<blockquote><code>green | blue | yellow ~ red</code></blockquote>
+
+<p>For AUR <i>maintainer</i> searches, the Exact operator is redundant and the RegExp operator should not be used at all. It is only possible to find exact matches, so the full maintainer name is always required.</p>
+
+</li>
+
+</ul>
+
+<h3>Dependency Tree</h3>
+
+<blockquote>
+
+<p>This information page shows a hierarchy of all of the unique dependencies needed to install a package. For AUR packages, this may also include some additional dependencies required by the build process.</p>
+
+<p>Missing dependencies are indicated in the tree by either a single asterisk (*) for official packages, or a double asterisk (**) for AUR packages.</p>
+
+<p>The page also includes a few items of statistical information:</p>
+
+<ul>
+<li><b>Installed</b><p>Shows the total size and number of installed dependencies.</p></li>
+<li><b>Missing</b><p>Shows the total size and number of non-installed dependencies (but note that these totals cannot include AUR packages, the number of which will be shown separately).</p></li>
+</ul>
+
+</blockquote>
+
+<h3>Package Log</h3>
+
+<blockquote>
+
+<p>This information page shows pacman logfile entries that relate to installing, upgrading and removing a package. In addition, if a package replaces other packages, the entries for the replaced packages will also be shown.</p>
+
+</blockquote>
+
+<h3>Package Cache</h3>
+
+<blockquote>
+
+<p>This information page shows a list of the package-files that have been cached by pacman and/or archived by the <a href="http://wiki.archlinux.org/index.php?title=Arch_Linux_Archive&redirect=no">Arch Linux Archive</a>. In addition, if a package replaces other packages, the package-files for the replaced packages will also be shown.</p>
+
+</blockquote>
+
+<h3>Package Backup</h3>
+
+<blockquote>
+
+<p>This information page shows a list of the backup files belonging to a package (i.e. those for which <i>.pacnew</i> or <i>.pacsave</i> files may be generated). Also, each backup file is preceeded by an indication of its current status.</p>
+
+</blockquote>
+
+<h3>Context Menu Commands</h3>
+
+<blockquote>
+
+<p>Several additional commands can be accessed via the context menu for each information page:</p>
+
+<ul>
+
+<li><p><b>Find</b></p>
+
+<p>Shows the find-bar, which provides incremental text-search for the current page.</p></li>
+
+<li><p><b>Export</b></p>
+
+<p>Allows the package information for any page to be saved a text file.</p></li>
+
+<li><p><b>Send To List</b></p>
+
+<p>Can be used to send a group of package-links (e.g. Dependencies, Required By) to the packages list.</p></li>
+
+</ul>
+
+</blockquote>
+
+<h3>Main Menu Commands</h3>
+
+<ul>
+
+<li><p><b>File > Work Offline</b></p>
+
+<p>If this item is checked, it will prevent all access to online resources (such as the AUR). The setting is preserved between sessions.</p></li>
+
+<li><p><b>File > Refresh</b></p>
+
+<p>This can be used to synchronize with the pacman databases after any system changes.</p></li>
+
+<li><p><b>File > Cancel Task</b></p>
+
+<p>This can be used to cancel a long-running task.</p></li>
+
+<li><p><b>File > Quit</b></p>
+
+<p>Quit the application.</p></li>
+
+<li><p><b>Tools > Show Statistics</b></p>
+
+<p>Show a dialog displaying high-level statistics about the currently installed packages.</p></li>
+
+<li><p><b>Tools > Copy List</b></p>
+
+<p>Copies the current list of packages to the clipboard.</p></li>
+
+<li><p><b>Tools > Clear Bookmarks</b></p>
+
+<p>Removes all the current bookmarks.</p></li>
+
+<li><p><b>Help > Manual</b></p>
+
+<p>View the application manual.</p></li>
+
+<li><p><b>Help > About</b></p>
+
+<p>View the application details and licence.</p></li>
+
+<li><p><b>Help > About Qt</b></p>
+
+<p>View information about the Qt Toolkit.</p></li>
+
+</ul>
+
+<h3>Shortcuts</h3>
+
+<blockquote>
+
+<table class="shortcuts">
+<tr><td><b>F1</b></td><td>View the application manual.</td></tr>
+<tr><td><b>F9</b></td><td>Move focus to the filters panel.</td></tr>
+<tr><td><b>F10</b></td><td>Move focus to the packages panel.</td></tr>
+<tr><td><b>F11</b></td><td>Move focus to the information panel.</td></tr>
+<tr><td><b>F12</b></td><td>Move focus to the search box.</td></tr>
+<tr><td><b>F3</b></td><td>Start or stop the current search.</td></tr>
+<tr><td><b>Ctrl+O</b></td><td>Open the file search dialog.</td></tr>
+<tr><td><b>Alt+Left</b></td><td>Go back in the information history.</td></tr>
+<tr><td><b>Alt+Right</b></td><td>Go forward in the information history.</td></tr>
+<tr><td><b>Ctrl+B</b></td><td>Bookmark the current package.</td></tr>
+<tr><td><b>Delete</b></td><td>Delete the selected bookmark.</td></tr>
+<tr><td><b>F7</b></td><td>Show the bookmarks menu.</td></tr>
+<tr><td><b>Ctrl+S</b></td><td>Show the statistics dialog.</td></tr>
+<tr><td><b>Ctrl+L</b></td><td>Copy the package list.</td></tr>
+<tr><td><b>Ctrl+F</b></td><td>Show the find-bar.</td></tr>
+<tr><td><b>Escape</b></td><td>Hide the find-bar (when it has the keyboard focus).</td></tr>
+<tr><td><b>F5</b></td><td>Refresh after system changes.</td></tr>
+<tr><td><b>Ctrl+W</b></td><td>Cancel the current task.</td></tr>
+<tr><td><b>Ctrl+Q</b></td><td>Quit the application.</td></tr>
+</table>
+
+</blockquote>
+
+</td></tr>
+
+</table>
+
+</body>
+
+</html>

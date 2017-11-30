@@ -1,0 +1,22 @@
+<RCC>
+<qresource>
+    <file>icons/app.png</file>
+    <file>icons/bookmark.png</file>
+    <file>icons/category.png</file>
+    <file>icons/close.png</file>
+    <file>icons/dependency.png</file>
+    <file>icons/optional.png</file>
+    <file>icons/downgrade.png</file>
+    <file>icons/filter.png</file>
+    <file>icons/group.png</file>
+    <file>icons/installed.png</file>
+    <file>icons/orphan.png</file>
+    <file>icons/package.png</file>
+    <file>icons/repository.png</file>
+    <file>icons/search.png</file>
+    <file>icons/stop.png</file>
+    <file>icons/upgrade.png</file>
+    <file>doc/manual.html</file>
+    <file>LICENSE</file>
+</qresource>
+</RCC>

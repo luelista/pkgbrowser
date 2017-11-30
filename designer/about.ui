@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Copyright (C) 2010-2017, kachelaqa &lt;kachelaqa@gmail.com&gt;</author>
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>451</width>
+    <height>334</height>
+   </rect>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources.qrc">
+    <normaloff>:/icons/app.png</normaloff>:/icons/app.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="_central_layout" rowstretch="1,5,0" columnstretch="1,4">
+   <item row="0" column="0">
+    <widget class="QLabel" name="icon">
+     <property name="pixmap">
+      <pixmap resource="../resources.qrc">:/icons/app.png</pixmap>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="title"/>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QTabWidget" name="information">
+     <widget class="QWidget" name="detailsTab">
+      <attribute name="title">
+       <string>Details</string>
+      </attribute>
+      <layout class="QGridLayout" name="_details_layout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="details">
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="licenseTab">
+      <attribute name="title">
+       <string>License</string>
+      </attribute>
+      <layout class="QGridLayout" name="_license_layout">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QPlainTextEdit" name="license">
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::NoWrap</enum>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttons">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttons</sender>
+   <signal>accepted()</signal>
+   <receiver>AboutDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>313</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>225</x>
+     <y>166</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

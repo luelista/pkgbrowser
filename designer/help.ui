@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Copyright (C) 2010-2017, kachelaqa &lt;kachelaqa@gmail.com&gt;</author>
+ <class>HelpDialog</class>
+ <widget class="QDialog" name="HelpDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>760</width>
+    <height>580</height>
+   </rect>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources.qrc">
+    <normaloff>:/icons/app.png</normaloff>:/icons/app.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTextBrowser" name="browser">
+     <property name="openLinks">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDialogButtonBox" name="buttons">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttons</sender>
+   <signal>rejected()</signal>
+   <receiver>HelpDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>669</x>
+     <y>557</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>541</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
