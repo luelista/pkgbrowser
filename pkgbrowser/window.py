@@ -1,6 +1,6 @@
 # Copyright (C) 2010-2017, kachelaqa <kachelaqa@gmail.com>
 
-import sys, time
+import sys, time, subprocess
 from PyQt5.QtCore import (
     Qt, QObject, QTimer, QEvent, QSignalMapper, QFile, QDir, QUrl,
     QTextStream, QStringListModel,
@@ -199,6 +199,7 @@ class Window(QMainWindow, Ui_Window):
             self.handleSortChanged)
         self.packages.selectionModel().selectionChanged.connect(
             self.handlePackageChanged)
+        self.packages.doubleClicked.connect(self.handlePackageDoubleClick)
         self.information.currentChanged.connect(self.handleInformationChanged)
         self.details.customContextMenuRequested.connect(
             self.handleContextMenu)
@@ -843,6 +844,16 @@ class Window(QMainWindow, Ui_Window):
                 self.setCurrentPackage(package)
                 self.updateInformation()
                 qApp.restoreOverrideCursor()
+
+    def handlePackageDoubleClick(self, index):
+        row = self.packages.selectedIndexes()
+        if row:
+            item = self.packages.model().itemFromIndex(row[0])
+            print(item.data(Qt.UserRole))
+            #result = subprocess.call(["xterm", "-e", "sudo", "pacman", "-S", item.data(Qt.UserRole).name])
+            result = subprocess.call(["xterm", "-e", "yaourt", "-S", item.data(Qt.UserRole).name])
+            if result == 0:
+                self.handleRefresh()
 
     def handleExportInformation(self):
         widget = self.informationWidget()
